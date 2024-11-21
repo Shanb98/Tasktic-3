@@ -24,6 +24,7 @@
         </v-list>
       </v-navigation-drawer>
   
+      
       <!-- Application Bar -->
       <v-app-bar app>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
@@ -32,20 +33,36 @@
   
       <!-- Main Content -->
       <v-main>
-        <v-container>
-          <h1>Welcome to the Dashboard</h1>
-          <p>This is the main content area of the dashboard.</p>
-        </v-container>
-      </v-main>
+      <v-container>
+        <!-- Conditional rendering of selected menu content -->
+        <component :is="currentComponent" />
+      </v-container>
+    </v-main>
     </v-app>
   </template>
   
   <script>
+  import Home from "@/components/frontPage.vue"; // Import the Home component
+  import About from "@/components/AboutPage.vue"; // Import the About component
+  
   export default {
     name: "DashboardPage",
+    components: {
+      Home,
+      About,
+    },
     data: () => ({
       drawer: null, // State for the navigation drawer
+      selectedMenu: "home", // Default menu selection
     }),
+    computed: {
+      // Compute the current component based on the selected menu
+      currentComponent() {
+        if (this.selectedMenu === "home") return "Home";
+        if (this.selectedMenu === "about") return "About";
+        return "Home"; // Default fallback
+      },
+    },
   };
   </script>
   
